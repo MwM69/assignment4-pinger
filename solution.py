@@ -129,7 +129,7 @@ def ping(host, timeout=1):
     packet_avg = (sum(delayF)) / (len(delayF))
     stdev_var = stdev(delayF)
 
-    vars = packet_min, packet_max, packet_avg, stdev_var
+    vars = packet_min, packet_avg, packet_max, stdev_var
     print(vars)
     return vars
 
