@@ -1,3 +1,5 @@
+from array import *
+from statistics import *
 from socket import *
 import os
 import sys
@@ -113,13 +115,22 @@ def ping(host, timeout=1):
     print("Pinging " + dest + " using Python:")
     print("")
     # Calculate vars values and return them
-    vars = [str(round(packet_min, 2)), str(round(packet_avg, 2)), str(round(packet_max, 2)),str(round(stdev(stdev_var), 2))]
+    delayF = array('d')
+
+    #vars = [str(round(packet_min, 2)), str(round(packet_avg, 2)), str(round(packet_max, 2)),str(round(stdev(stdev_var), 2))]
     # Send ping requests to a server separated by approximately one second
     for i in range(0,4):
         delay = doOnePing(dest, timeout)
+        delayF.append(delay)
         print(delay)
         time.sleep(1)  # one second
+    packet_min = min(delayF)
+    packet_max = max(delayF)
+    packet_avg = (sum(delayF)) / (len(delayF))
+    stdev_var = stdev(delayF)
 
+    vars = packet_min, packet_max, packet_avg, stdev_var
+    print(vars)
     return vars
 
 if __name__ == '__main__':
